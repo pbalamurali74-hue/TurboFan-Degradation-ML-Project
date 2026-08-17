@@ -1,7 +1,8 @@
 # TurboFan-Degradation-ML-Project
-Turbo Fan Degradation Prediction Using NASA C-MAPSS Dataset
+[README(1).md](https://github.com/user-attachments/files/31140625/README.1.md)
+# Turbo Fan Degradation Prediction Using NASA C-MAPSS Dataset
 
-1. Project Overview
+## 1. Project Overview
 
 This project focuses on modeling and predicting the degradation of
 aircraft turbofan engines using the NASA C-MAPSS (Commercial Modular
@@ -19,77 +20,66 @@ was used in the PHM08 data competition. The source paper describes
 damage propagation through progressively worsening degradation until a
 failure criterion is reached.
 
-2. Objectives
+## 2. Objectives
 
-Load and understand the NASA C-MAPSS dataset.
+-   Load and understand the NASA C-MAPSS dataset.
+-   Perform exploratory data analysis on turbofan engine sensor
+    measurements.
+-   Analyze degradation patterns over operating cycles.
+-   Preprocess and normalize sensor data where required.
+-   Generate Remaining Useful Life (RUL) labels for training data.
+-   Build machine learning models for turbofan degradation/RUL
+    prediction.
+-   Evaluate model performance using suitable regression metrics.
+-   Visualize predicted and actual RUL values.
+-   Provide a basis for predictive maintenance of turbofan engines.
 
-Perform exploratory data analysis on turbofan engine sensor
-measurements.
-
-Analyze degradation patterns over operating cycles.
-
-Preprocess and normalize sensor data where required.
-
-Generate Remaining Useful Life (RUL) labels for training data.
-
-Build machine learning models for turbofan degradation/RUL
-prediction.
-
-Evaluate model performance using suitable regression metrics.
-
-Visualize predicted and actual RUL values.
-
-Provide a basis for predictive maintenance of turbofan engines.
-
-3. Dataset
+## 3. Dataset
 
 This project uses the NASA C-MAPSS FD001 dataset initially.
 
 FD001 contains:
 
-Property                                Value
-
-Training trajectories                     100
-Test trajectories                         100
-Operating conditions            1 (Sea Level)
-Fault modes               1 (HPC Degradation)
-Columns                                    26
+  Property                                Value
+  ----------------------- ---------------------
+  Training trajectories                     100
+  Test trajectories                         100
+  Operating conditions            1 (Sea Level)
+  Fault modes               1 (HPC Degradation)
+  Columns                                    26
 
 Each row represents one snapshot of an engine during a particular
 operating cycle.
 
 The 26 columns are:
 
-Unit number
-
-Time/cycle
-
-Operational setting 1
-
-Operational setting 2
-
-Operational setting 3 6--26. Sensor measurements 1--21
+1.  Unit number
+2.  Time/cycle
+3.  Operational setting 1
+4.  Operational setting 2
+5.  Operational setting 3 6--26. Sensor measurements 1--21
 
 The training data contains complete run-to-failure trajectories. The
 test data contains partial trajectories that stop before failure. True
 RUL values are provided separately for evaluating predictions.
 
-4. Available C-MAPSS Datasets
+## 4. Available C-MAPSS Datasets
 
 The project files also include FD002, FD003 and FD004.
 
-Dataset     Train   Test   Conditions Fault Modes
-
-FD001         100    100            1 1
-FD002         260    259            6 1
-FD003         100    100            1 2
-FD004         248    249            6 2
+  Dataset     Train   Test   Conditions Fault Modes
+  --------- ------- ------ ------------ -------------
+  FD001         100    100            1 1
+  FD002         260    259            6 1
+  FD003         100    100            1 2
+  FD004         248    249            6 2
 
 FD002 and FD004 introduce six operating conditions, while FD003 and
 FD004 include two fault modes.
 
-5. Project Workflow
+## 5. Project Workflow
 
+``` text
 NASA C-MAPSS Dataset
         |
         v
@@ -124,30 +114,25 @@ Model Evaluation
         |
         v
 Degradation Visualization
+```
 
-6. Technologies Used
+## 6. Technologies Used
 
-Python
-
-Google Colab / Jupyter Notebook
-
-Pandas
-
-NumPy
-
-Matplotlib
-
-Seaborn
-
-Scikit-learn
-
-Machine Learning / Regression algorithms
+-   Python
+-   Google Colab / Jupyter Notebook
+-   Pandas
+-   NumPy
+-   Matplotlib
+-   Seaborn
+-   Scikit-learn
+-   Machine Learning / Regression algorithms
 
 Deep learning libraries such as TensorFlow or PyTorch can be added later
 if neural-network-based RUL prediction is required.
 
-7. Suggested Project Structure
+## 7. Suggested Project Structure
 
+``` text
 Turbo-Fan-Degradation/
 │
 ├── data/
@@ -181,22 +166,26 @@ Turbo-Fan-Degradation/
 │
 ├── README.md
 └── requirements.txt
+```
 
-8. Installation
+## 8. Installation
 
 If you are using Google Colab, most required libraries are already
 available.
 
 For a local Python environment:
 
+``` bash
 pip install pandas numpy matplotlib seaborn scikit-learn jupyter
+```
 
-9. Loading the Dataset
+## 9. Loading the Dataset
 
 The C-MAPSS files are space-separated text files without a header.
 
 Example:
 
+``` python
 import pandas as pd
 
 df = pd.read_csv(
@@ -207,9 +196,11 @@ df = pd.read_csv(
 
 print(df.head())
 print(df.shape)
+```
 
 Column names can then be assigned:
 
+``` python
 columns = [
     "unit_number",
     "cycle",
@@ -240,106 +231,98 @@ columns = [
 ]
 
 df.columns = columns
+```
 
-10. Exploratory Data Analysis
+## 10. Exploratory Data Analysis
 
 The initial analysis should include:
 
-Number of engines.
-
-Number of cycles for each engine.
-
-Dataset dimensions.
-
-Missing-value analysis.
-
-Descriptive statistics.
-
-Sensor distributions.
-
-Sensor behavior over operating cycles.
-
-Correlation between sensors and degradation/RUL.
-
-Identification of sensors that provide useful degradation
-information.
+-   Number of engines.
+-   Number of cycles for each engine.
+-   Dataset dimensions.
+-   Missing-value analysis.
+-   Descriptive statistics.
+-   Sensor distributions.
+-   Sensor behavior over operating cycles.
+-   Correlation between sensors and degradation/RUL.
+-   Identification of sensors that provide useful degradation
+    information.
 
 Example:
 
+``` python
 print(df.shape)
 print(df.info())
 print(df.describe())
 print(df.isnull().sum())
+```
 
-11. RUL Concept
+## 11. RUL Concept
 
 Remaining Useful Life (RUL) represents the number of operational cycles
 an engine is expected to continue operating before failure.
 
-For a training engine that fails at cycle N, a simple RUL definition
+For a training engine that fails at cycle `N`, a simple RUL definition
 is:
 
+``` text
 RUL = N - current_cycle
+```
 
 For example, if an engine fails at cycle 200:
 
+``` text
 Cycle 1   -> RUL 199
 Cycle 2   -> RUL 198
 ...
 Cycle 199 -> RUL 1
 Cycle 200 -> RUL 0
+```
 
 The exact RUL-labeling strategy should be kept consistent with the
 chosen modeling approach.
 
-12. Machine Learning Approach
+## 12. Machine Learning Approach
 
 Possible regression models include:
 
-Linear Regression
-
-Decision Tree Regressor
-
-Random Forest Regressor
-
-Gradient Boosting Regressor
-
-Support Vector Regression
+-   Linear Regression
+-   Decision Tree Regressor
+-   Random Forest Regressor
+-   Gradient Boosting Regressor
+-   Support Vector Regression
 
 For a first implementation, Random Forest Regression or Gradient
 Boosting Regression can be used as a baseline.
 
 A more advanced implementation can use:
 
-LSTM
+-   LSTM
+-   GRU
+-   1D CNN
+-   CNN-LSTM
+-   Transformer-based time-series models
 
-GRU
-
-1D CNN
-
-CNN-LSTM
-
-Transformer-based time-series models
-
-13. Evaluation Metrics
+## 13. Evaluation Metrics
 
 RUL prediction can be evaluated using metrics such as:
 
-Mean Absolute Error (MAE)
+### Mean Absolute Error (MAE)
 
 Measures the average absolute difference between actual and predicted
 RUL.
 
-Root Mean Squared Error (RMSE)
+### Root Mean Squared Error (RMSE)
 
 Penalizes larger prediction errors more strongly.
 
-R² Score
+### R² Score
 
 Measures how well the model explains the variance in the target values.
 
 Example:
 
+``` python
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import numpy as np
 
@@ -350,60 +333,52 @@ r2 = r2_score(y_test, y_pred)
 print("MAE:", mae)
 print("RMSE:", rmse)
 print("R2 Score:", r2)
+```
 
-14. Expected Outcome
+## 14. Expected Outcome
 
 The completed project should be able to:
 
-Read and analyze C-MAPSS turbofan engine data.
+1.  Read and analyze C-MAPSS turbofan engine data.
+2.  Identify degradation trends from sensor measurements.
+3.  Create an appropriate RUL prediction target.
+4.  Train a machine learning model.
+5.  Predict the remaining useful life of test engines.
+6.  Compare predicted RUL with the available true RUL values.
+7.  Visualize engine degradation and prediction performance.
 
-Identify degradation trends from sensor measurements.
+## 15. Important Notes
 
-Create an appropriate RUL prediction target.
+-   FD001 is recommended as the starting dataset because it has one
+    operating condition and one fault mode.
+-   FD002 and FD004 are more challenging because they contain six
+    operating conditions.
+-   FD003 and FD004 contain two fault modes.
+-   The data contains operational settings and sensor noise.
+-   Training trajectories reach failure, whereas test trajectories
+    terminate before failure.
+-   Data preprocessing and feature selection should be performed
+    carefully because the dataset is multivariate time-series data.
 
-Train a machine learning model.
-
-Predict the remaining useful life of test engines.
-
-Compare predicted RUL with the available true RUL values.
-
-Visualize engine degradation and prediction performance.
-
-15. Important Notes
-
-FD001 is recommended as the starting dataset because it has one
-operating condition and one fault mode.
-
-FD002 and FD004 are more challenging because they contain six
-operating conditions.
-
-FD003 and FD004 contain two fault modes.
-
-The data contains operational settings and sensor noise.
-
-Training trajectories reach failure, whereas test trajectories
-terminate before failure.
-
-Data preprocessing and feature selection should be performed
-carefully because the dataset is multivariate time-series data.
-
-16. Reference
+## 16. Reference
 
 A. Saxena, K. Goebel, D. Simon, and N. Eklund, "Damage Propagation
 Modeling for Aircraft Engine Run-to-Failure Simulation," Proceedings of
 the First International Conference on Prognostics and Health Management
 (PHM08), Denver, Colorado, October 2008.
 
-17. Project Status
+## 17. Project Status
 
-Current Stage: Dataset loading, exploration and statistical
+**Current Stage:** Dataset loading, exploration and statistical
 analysis.
 
-Next Stage: Data preprocessing, RUL label generation and degradation
+**Next Stage:** Data preprocessing, RUL label generation and degradation
 analysis.
 
-Author
+------------------------------------------------------------------------
 
-Purushotham Balamurali
+## Author
 
-Project: Turbo Fan Degradation Prediction using NASA C-MAPSS Dataset
+**Purushotham Balamurali**
+
+Project: **Turbo Fan Degradation Prediction using NASA C-MAPSS Dataset**
